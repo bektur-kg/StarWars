@@ -59,7 +59,6 @@ function selectTemplate(base) {
 
 $selectSort.addEventListener('change', (e) => {
 	const val = e.target.value
-	console.log(val)
 	getBase(`${BASE_URL}${val.toLowerCase()}`, '', (cb) => {
 		cardTemplate(cb.results)
 	})
@@ -198,7 +197,9 @@ function morePlanets(
 				</div>
 				<div class="moreCard-body">
 					<ul>
-						<li><span>Created: </span><span>${created}</span></li>
+						<li><span>Created: </span><span>${
+							created.length > 10 ? created.slice(0, 10) : created
+						}</span></li>
 						<li><span>Climate: </span><span>${climate}</span></li>
 						<li><span>Rotation Period: </span><span>${rotation_period}</span></li>
 						<li><span>Orbital Period: </span><span>${orbital_period}</span></li>
@@ -267,7 +268,9 @@ function moreStarships(
 				</div>
 				<div class="moreCard-body">
 					<ul>
-						<li><span>Model: </span><span>${model}</span></li>
+						<li><span>Model: </span><span>${
+							model.length > 15 ? model.slice(0, 15) + '...' : model
+						}</span></li>
 						<li><span>Manufacturer: </span><span>${
 							manufacturer.length > 30
 								? manufacturer.slice(0, 30) + '...'
@@ -301,8 +304,10 @@ $prev.addEventListener('click', (e) => {
 	}
 	currentChanging()
 
-	getBase(`${BASE_URL}people/`, `page=${currentPage}`, (res) =>
-		cardTemplate(res.results)
+	getBase(
+		`${BASE_URL}${$selectSort.value.toLowerCase()}/`,
+		`page=${currentPage}`,
+		(res) => cardTemplate(res.results)
 	)
 	e.preventDefault()
 })
@@ -315,7 +320,9 @@ $next.addEventListener('click', (e) => {
 		currentPage
 	}
 	currentChanging()
-	getBase(`${BASE_URL}people/`, `page=${currentPage}`, (res) =>
-		cardTemplate(res.results)
+	getBase(
+		`${BASE_URL}${$selectSort.value.toLowerCase()}/`,
+		`page=${currentPage}`,
+		(res) => cardTemplate(res.results)
 	)
 })
